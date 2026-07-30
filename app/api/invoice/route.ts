@@ -111,7 +111,7 @@ async function buildReceiptPdf(payment: RazorpayPayment) {
     ["Status", payment.status],
     ["Payment ID", payment.id],
     ["Date", date],
-    ["Description", payment.description ?? "DSA Vault — lifetime access"],
+    ["Description", "DSA Vault — lifetime access"],
     ["Method", payment.method ?? "-"],
     ["Email", payment.email ?? "-"],
   ]
