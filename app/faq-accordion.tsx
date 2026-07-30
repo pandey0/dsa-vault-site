@@ -1,33 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const FAQ_ITEMS = [
-  {
-    q: "Do I need an API key or Claude credits?",
-    a: "No. Everything runs through your existing `claude` CLI login (Pro, Max, or Code). This repo never talks to the Anthropic API directly and never adds usage of its own.",
-  },
-  {
-    q: "Is this a subscription?",
-    a: "No — one-time payment. You get permanent collaborator access to the private repo and can `git pull` for updates whenever they ship.",
-  },
-  {
-    q: "What if I don't have Claude Code set up?",
-    a: "Then this isn't the right fit yet. You need a Claude subscription you can run non-interactively from a terminal — set that up first.",
-  },
-  {
-    q: "Can I use a language other than Java for practice?",
-    a: "Yes. The base solutions are Java, but the conversion feature ports any solution into the language you actually interview in.",
-  },
-  {
-    q: "Can I share this with a friend?",
-    a: "No — it's licensed to your GitHub account specifically. The app checks live that you're still a collaborator before it'll run, so it won't work under someone else's account.",
-  },
-  {
-    q: "Refunds?",
-    a: "No refunds once GitHub access has been granted — it's a digital product, delivered and usable immediately.",
-  },
-];
+import { FAQ_ITEMS } from "./faq-data";
 
 export function FaqAccordion() {
   const [openIndex, setOpenIndex] = useState(0);
@@ -53,11 +27,21 @@ export function FaqAccordion() {
               <div style={{ fontSize: 14, fontWeight: 600, color: "#eef2f1" }}>{item.q}</div>
               <div style={{ fontSize: 16, color: "#6ee7a0", flexShrink: 0 }}>{isOpen ? "−" : "+"}</div>
             </div>
-            {isOpen ? (
-              <div style={{ fontSize: 13, lineHeight: 1.7, color: "#8a969b", padding: "0 0 20px", maxWidth: 640 }}>
-                {item.a}
-              </div>
-            ) : null}
+            {/* Always rendered (not conditionally mounted) so every answer exists in the
+                server-rendered HTML for crawlers that don't execute JS -- visibility is purely
+                a CSS toggle here, the content itself is never removed from the DOM. */}
+            <div
+              style={{
+                fontSize: 13,
+                lineHeight: 1.7,
+                color: "#8a969b",
+                maxWidth: 640,
+                display: isOpen ? "block" : "none",
+                padding: isOpen ? "0 0 20px" : 0,
+              }}
+            >
+              {item.a}
+            </div>
           </div>
         );
       })}

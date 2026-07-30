@@ -1,0 +1,33 @@
+# DSA Vault
+
+> An AI-assisted DSA (data structures & algorithms) interview trainer built on the Striver's A2Z DSA Sheet. A Socratic AI coach runs entirely through the user's own Claude subscription (Pro, Max, or Code) — no API key, no usage added by the product itself.
+
+## What it is
+
+- Full Striver's A2Z DSA Sheet, indexed and searchable, with working Java solutions.
+- A Socratic coach chat: the learner describes their own intuition before seeing any solution write-up.
+- Converts any solution into whichever language the learner actually interviews in.
+- Grades a learner's own practice attempt against the reference solution (not just pass/fail on test cases).
+- Generates a visual, step-by-step dry run of an algorithm executing.
+
+## Pricing
+
+One-time payment, ₹199 (INR). Lifetime access — not a subscription, no recurring charge.
+
+## Requirements
+
+Requires the buyer's own Claude Pro, Max, or Code subscription, runnable non-interactively from a terminal. This product is the workflow layer only — it does not provide AI usage, API access, or model credits of its own.
+
+## How access works
+
+1. Buyer signs in with GitHub (no separate account/password).
+2. Buyer pays once via Razorpay.
+3. A GitHub collaborator invite is sent automatically to a private repository containing a compiled build (not the product's source code).
+4. Buyer clones that repository and runs `node start.js`, which asks for a one-time GitHub sign-in to confirm the license, then starts a local web app on `localhost:3000`.
+
+Licensing is enforced live against GitHub collaborator status — it is not transferable to another GitHub account.
+
+## Links
+
+- Homepage / pricing / FAQ: https://dsa-vault.shop/
+- Post-purchase instructions: https://dsa-vault.shop/thank-you

@@ -2,11 +2,39 @@ import { JetBrains_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { GITHUB_AUTH_COOKIE, verifyCookieValue } from "@/lib/auth-cookie";
 import { FaqAccordion } from "./faq-accordion";
+import { FAQ_ITEMS } from "./faq-data";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
+
+// Structured data: what both Google's FAQ rich results and AI answer engines actually parse for
+// reliable Q&A/pricing extraction, independent of the accordion's client-side visual state.
+const FAQ_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQ_ITEMS.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+const PRODUCT_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "DSA Vault",
+  description:
+    "An AI-assisted DSA interview trainer built on the Striver's A2Z DSA Sheet, with a Socratic AI coach that runs through your own Claude subscription.",
+  offers: {
+    "@type": "Offer",
+    price: "199",
+    priceCurrency: "INR",
+    availability: "https://schema.org/InStock",
+    url: "https://dsa-vault.shop/",
+  },
+};
 
 const ERROR_MESSAGES: Record<string, string> = {
   oauth_state_mismatch: "GitHub sign-in failed a security check — please try connecting again.",
@@ -33,6 +61,8 @@ export default async function Home({
       className={`${jetbrainsMono.className} dsa-landing`}
       style={{ background: "#0a0d0e", color: "#d8dee2", minHeight: "100vh", overflowX: "hidden" }}
     >
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PRODUCT_JSON_LD) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }} />
       {/* NAV */}
       <div
         style={{
