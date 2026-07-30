@@ -24,6 +24,11 @@ export async function GET(request: Request) {
   }
 
   try {
+    // Must exactly match the redirect_uri sent to /authorize (and the OAuth App's registered
+    // callback URL) — pinned the same way as in the start route, not derived from this request's
+    // origin, since dsa-vault.shop and www.dsa-vault.shop both resolve here but only one is registered.
+    const canonicalOrigin = process.env.SITE_URL ?? origin
+
     const tokenRes = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json" },
@@ -31,7 +36,7 @@ export async function GET(request: Request) {
         client_id: clientId,
         client_secret: clientSecret,
         code,
-        redirect_uri: `${origin}/api/auth/github/callback`,
+        redirect_uri: `${canonicalOrigin}/api/auth/github/callback`,
       }),
     })
 

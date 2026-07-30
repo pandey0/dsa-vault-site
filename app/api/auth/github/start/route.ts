@@ -12,7 +12,10 @@ export async function GET(request: Request) {
   }
 
   const state = randomBytes(16).toString("hex")
-  const { origin } = new URL(request.url)
+  // Pinned to one canonical domain (must exactly match the GitHub OAuth App's registered
+  // callback URL) rather than derived per-request — dsa-vault.shop and www.dsa-vault.shop
+  // both resolve to this site, but GitHub requires an exact string match.
+  const origin = process.env.SITE_URL ?? new URL(request.url).origin
   const redirectUri = `${origin}/api/auth/github/callback`
 
   const authorizeUrl = new URL("https://github.com/login/oauth/authorize")
