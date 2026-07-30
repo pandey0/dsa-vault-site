@@ -1,63 +1,103 @@
-import Image from "next/image";
+import { cookies } from "next/headers";
+import { GITHUB_AUTH_COOKIE, verifyCookieValue } from "@/lib/auth-cookie";
 
-export default function Home() {
+const FEATURES = [
+  {
+    title: "Learning Intuition chat",
+    body: "State your own approach first. A Socratic coach reacts, nudges, and asks clarifying questions before you ever see the write-up.",
+  },
+  {
+    title: "Convert to any language",
+    body: "Python, JavaScript, TypeScript, C++, C, Go, Rust, or Kotlin — each saved as a real, runnable file you can open in an editor.",
+  },
+  {
+    title: "Practice & get graded",
+    body: "Write your own attempt in your chosen language and get a verdict, score, issues, fixes, and complexity feedback.",
+  },
+  {
+    title: "Visual dry runs",
+    body: "A step-by-step, AI-generated visualization of an example run for any algorithm, rendered safely in a sandboxed frame.",
+  },
+];
+
+const ERROR_MESSAGES: Record<string, string> = {
+  oauth_state_mismatch: "GitHub sign-in failed a security check — please try connecting again.",
+  oauth_token_exchange_failed: "Could not complete GitHub sign-in — please try again.",
+  oauth_user_fetch_failed: "Could not read your GitHub profile — please try again.",
+  oauth_unexpected_error: "Something went wrong during GitHub sign-in — please try again.",
+  not_signed_in: "Please connect GitHub before buying.",
+  payment_link_failed: "Could not start checkout — please try again in a moment.",
+};
+
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+  const cookieStore = await cookies();
+  const githubUsername = verifyCookieValue(cookieStore.get(GITHUB_AUTH_COOKIE)?.value);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-dvh bg-background text-foreground">
+      <main className="mx-auto max-w-3xl px-6 py-20">
+        <h1 className="text-4xl font-bold tracking-tight">DSA Vault</h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          An AI-assisted DSA interview trainer built on the Striver&apos;s A2Z DSA Sheet — chat with a coach
+          about your own intuition before seeing the write-up, convert solutions to any language, get your
+          practice attempts graded, and generate a visual step-by-step dry run of any algorithm.
+        </p>
+
+        <div className="mt-8 rounded-md border border-yellow-600/40 bg-yellow-600/10 p-4 text-sm">
+          <strong>Before you buy:</strong> this requires your own Claude Pro, Max, or Code login. Every AI
+          feature runs through <em>your</em> logged-in <code>claude</code> CLI — this product is the tool
+          and workflow, not AI usage or API access.
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <ul className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {FEATURES.map((feature) => (
+            <li key={feature.title} className="rounded-md border p-4">
+              <h3 className="font-semibold">{feature.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{feature.body}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-12 rounded-md border p-6">
+          <h2 className="text-xl font-semibold">Get lifetime access</h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            One-time purchase. You&apos;re added as a collaborator on the private repository and can{" "}
+            <code>git pull</code> for every future update.
+          </p>
+
+          {error ? (
+            <p className="mt-4 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
+              {ERROR_MESSAGES[error] ?? "Something went wrong — please try again."}
+            </p>
+          ) : null}
+
+          <div className="mt-6">
+            {githubUsername ? (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Signed in as <strong>@{githubUsername}</strong>
+                </p>
+                <a
+                  href="/api/create-payment-link"
+                  className="inline-flex h-11 w-fit items-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  Buy Now
+                </a>
+              </div>
+            ) : (
+              <a
+                href="/api/auth/github/start"
+                className="inline-flex h-11 w-fit items-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              >
+                Connect GitHub to continue
+              </a>
+            )}
+          </div>
         </div>
       </main>
     </div>
