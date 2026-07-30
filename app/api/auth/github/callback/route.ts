@@ -11,6 +11,9 @@ export async function GET(request: Request) {
 
   const cookieStore = await cookies()
   const expectedState = cookieStore.get(OAUTH_STATE_COOKIE)?.value
+  // Single-use: clear it now, on every path, instead of only on success — it's already been
+  // read into `expectedState`, so there's nothing left that needs it to stick around.
+  cookieStore.delete(OAUTH_STATE_COOKIE)
 
   if (!code || !state || !expectedState || state !== expectedState) {
     return NextResponse.redirect(`${origin}/?error=oauth_state_mismatch`)
@@ -69,7 +72,6 @@ export async function GET(request: Request) {
       path: "/",
       maxAge: 60 * 60,
     })
-    response.cookies.delete(OAUTH_STATE_COOKIE)
 
     return response
   } catch {

@@ -4,13 +4,18 @@ import { GITHUB_AUTH_COOKIE, verifyCookieValue } from "@/lib/auth-cookie"
 
 export const runtime = "nodejs"
 
-export async function GET(request: Request) {
+// POST only (not GET): creating a payment link is a state-changing action tied to the
+// signed-in user. A plain GET link would be triggerable cross-site (SameSite=Lax cookies
+// still ride along on top-level cross-origin GET navigation) — POST is not, since Lax
+// cookies are withheld on cross-site POSTs, so a form/link on another site can't trigger
+// this on a signed-in visitor's behalf.
+export async function POST(request: Request) {
   const { origin } = new URL(request.url)
   const cookieStore = await cookies()
   const githubUsername = verifyCookieValue(cookieStore.get(GITHUB_AUTH_COOKIE)?.value)
 
   if (!githubUsername) {
-    return NextResponse.redirect(`${origin}/?error=not_signed_in`)
+    return NextResponse.redirect(`${origin}/?error=not_signed_in`, 303)
   }
 
   const keyId = process.env.RAZORPAY_KEY_ID
@@ -46,12 +51,15 @@ export async function GET(request: Request) {
 
     if (!res.ok || !data.short_url) {
       console.error("Razorpay payment link creation failed:", data)
-      return NextResponse.redirect(`${origin}/?error=payment_link_failed`)
+      return NextResponse.redirect(`${origin}/?error=payment_link_failed`, 303)
     }
 
-    return NextResponse.redirect(data.short_url as string)
+    // 303 forces the browser to follow with GET — Razorpay's checkout page (and our own
+    // page routes) only handle GET, and the default redirect status (307) would incorrectly
+    // preserve this request's POST method on the follow-up request.
+    return NextResponse.redirect(data.short_url as string, 303)
   } catch (err) {
     console.error("Razorpay payment link creation error:", err)
-    return NextResponse.redirect(`${origin}/?error=payment_link_failed`)
+    return NextResponse.redirect(`${origin}/?error=payment_link_failed`, 303)
   }
 }

@@ -350,21 +350,43 @@ export default async function Home({
             ) : null}
           </div>
 
-          <a
-            href={githubUsername ? "/api/create-payment-link" : "/api/auth/github/start"}
-            style={{
-              textDecoration: "none",
-              background: "#6ee7a0",
-              color: "#0a0d0e",
-              padding: "16px 32px",
-              borderRadius: 4,
-              fontWeight: 700,
-              fontSize: 15,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {githubUsername ? "Pay with Razorpay →" : "Connect GitHub to continue →"}
-          </a>
+          {githubUsername ? (
+            <form action="/api/create-payment-link" method="POST">
+              <button
+                type="submit"
+                style={{
+                  border: "none",
+                  cursor: "pointer",
+                  background: "#6ee7a0",
+                  color: "#0a0d0e",
+                  padding: "16px 32px",
+                  borderRadius: 4,
+                  fontWeight: 700,
+                  fontSize: 15,
+                  fontFamily: "inherit",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Pay with Razorpay →
+              </button>
+            </form>
+          ) : (
+            <a
+              href="/api/auth/github/start"
+              style={{
+                textDecoration: "none",
+                background: "#6ee7a0",
+                color: "#0a0d0e",
+                padding: "16px 32px",
+                borderRadius: 4,
+                fontWeight: 700,
+                fontSize: 15,
+                whiteSpace: "nowrap",
+              }}
+            >
+              Connect GitHub to continue →
+            </a>
+          )}
         </div>
       </div>
 
