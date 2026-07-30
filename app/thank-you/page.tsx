@@ -29,7 +29,29 @@ const STEPS = [
   },
 ];
 
-export default function ThankYou() {
+export default async function ThankYou({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    razorpay_payment_id?: string;
+    razorpay_payment_link_id?: string;
+    razorpay_payment_link_reference_id?: string;
+    razorpay_payment_link_status?: string;
+    razorpay_signature?: string;
+  }>;
+}) {
+  const params = await searchParams;
+  const hasPaymentParams = Boolean(
+    params.razorpay_payment_id &&
+      params.razorpay_payment_link_id &&
+      params.razorpay_payment_link_reference_id &&
+      params.razorpay_payment_link_status &&
+      params.razorpay_signature
+  );
+  const invoiceHref = hasPaymentParams
+    ? `/api/invoice?${new URLSearchParams(params as Record<string, string>).toString()}`
+    : undefined;
+
   return (
     <div
       className={`${jetbrainsMono.className} dsa-landing`}
@@ -90,6 +112,25 @@ export default function ThankYou() {
               </div>
             </div>
           </div>
+
+          {invoiceHref ? (
+            <a
+              href={invoiceHref}
+              style={{
+                display: "inline-flex",
+                marginTop: 20,
+                textDecoration: "none",
+                background: "#6ee7a0",
+                color: "#0a0d0e",
+                padding: "10px 20px",
+                borderRadius: 4,
+                fontWeight: 700,
+                fontSize: 13,
+              }}
+            >
+              ↓ Download Receipt
+            </a>
+          ) : null}
 
           <h1 style={{ fontSize: "clamp(24px,4vw,32px)", color: "#f2f5f4", margin: "32px 0 12px", fontWeight: 800, letterSpacing: "-0.02em" }}>
             You&apos;re in.
