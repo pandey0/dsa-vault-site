@@ -130,7 +130,7 @@ export default function ThankYou() {
             }}
           >
             No invite after 10 minutes? Check spam, then email{" "}
-            <a href="mailto:support@dsavault.dev">support@dsavault.dev</a> with your Razorpay payment ID.
+            <a href="mailto:arpit242002@gmail.com">arpit242002@gmail.com</a> with your Razorpay payment ID.
           </div>
 
           <Link href="/" style={{ textDecoration: "none", fontSize: 13, color: "#5c6b70", borderBottom: "1px dashed rgba(92,107,112,.5)" }}>
