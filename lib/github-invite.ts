@@ -1,5 +1,5 @@
 const REPO_OWNER = "pandey0"
-const REPO_NAME = "dsa-vault-pro"
+const REPO_NAME = "dsa-vault-pro-build"
 
 export const GITHUB_USERNAME_RE = /^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,38})$/
 
