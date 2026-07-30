@@ -189,6 +189,33 @@ export default async function Home({
         </div>
       </div>
 
+      {/* DEMO VIDEO */}
+      <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
+        <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// see it in action"}</div>
+        <h2 style={{ fontSize: "clamp(22px,3vw,30px)", color: "#f2f5f4", margin: "0 0 24px", fontWeight: 700, letterSpacing: "-0.01em" }}>
+          Watch a real session, not a mockup.
+        </h2>
+        <div
+          style={{
+            position: "relative",
+            paddingTop: "56.25%",
+            border: "1px solid rgba(255,255,255,.1)",
+            borderRadius: 8,
+            overflow: "hidden",
+            background: "#0d1214",
+            boxShadow: "0 30px 80px -20px rgba(0,0,0,.6)",
+          }}
+        >
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/CHiYdGXEcgY"
+            title="DSA Vault demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+          />
+        </div>
+      </div>
+
       {/* WHAT'S INCLUDED */}
       <div id="included" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
         <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// what's included"}</div>
