@@ -111,6 +111,19 @@ export default async function Home({
           >
             Get access — ₹199
           </a>
+          <div
+            style={{
+              fontSize: 12,
+              color: "#6ee7a0",
+              border: "1px solid rgba(110,231,160,.35)",
+              background: "rgba(110,231,160,.06)",
+              padding: "8px 14px",
+              borderRadius: 3,
+              fontWeight: 600,
+            }}
+          >
+            one-time · lifetime access
+          </div>
           <a href="#included" style={{ textDecoration: "none", color: "#aeb8bc", fontSize: 14, borderBottom: "1px dashed rgba(174,184,188,.4)" }}>
             see what&apos;s inside ↓
           </a>
@@ -143,11 +156,12 @@ export default async function Home({
           </div>
           <div style={{ padding: "20px 22px", fontSize: 13.5, lineHeight: 2.1, color: "#c7d1d4" }}>
             <div>
-              <span style={{ color: "#6ee7a0" }}>$</span>{" "}git clone git@github.com:you/dsa-vault.git
+              <span style={{ color: "#6ee7a0" }}>$</span>{" "}git clone git@github.com:you/dsa-vault-pro-build.git
             </div>
             <div>
-              <span style={{ color: "#6ee7a0" }}>$</span>{" "}npm install &amp;&amp; npm run dev
+              <span style={{ color: "#6ee7a0" }}>$</span>{" "}node start.js
             </div>
+            <div style={{ color: "#7a8790" }}>&gt; one-time GitHub sign-in to verify your license...</div>
             <div style={{ color: "#7a8790" }}>&gt; using your local `claude` login — no API key needed</div>
             <div style={{ color: "#7a8790" }}>
               &gt; ready on http://localhost:3000
@@ -302,9 +316,9 @@ export default async function Home({
             <div>
               <div style={{ fontSize: 15, fontWeight: 700, color: "#eef2f1", marginBottom: 6 }}>Clone it and run it locally</div>
               <div style={{ fontSize: 13, lineHeight: 1.6, color: "#8a969b" }}>
-                <code style={codeTag}>git clone</code>, <code style={codeTag}>npm install</code>,{" "}
-                <code style={codeTag}>npm run dev</code>. It&apos;s a Next.js app — read the code, change it, keep
-                it forever.
+                <code style={codeTag}>git clone</code>, <code style={codeTag}>node start.js</code> — nothing else
+                to install. A one-time GitHub sign-in confirms it&apos;s really you, then it runs on your machine,
+                on your Claude login, for good.
               </div>
             </div>
           </div>

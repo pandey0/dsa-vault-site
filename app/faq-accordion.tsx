@@ -20,8 +20,12 @@ const FAQ_ITEMS = [
     a: "Yes. The base solutions are Java, but the conversion feature ports any solution into the language you actually interview in.",
   },
   {
+    q: "Can I share this with a friend?",
+    a: "No — it's licensed to your GitHub account specifically. The app checks live that you're still a collaborator before it'll run, so it won't work under someone else's account.",
+  },
+  {
     q: "Refunds?",
-    a: "No refunds once the GitHub invite has been sent — it's a private repo, so access can't be revoked cleanly after the fact.",
+    a: "No refunds once GitHub access has been granted — it's a digital product, delivered and usable immediately.",
   },
 ];
 
