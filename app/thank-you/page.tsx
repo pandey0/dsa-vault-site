@@ -14,7 +14,8 @@ const STEPS = [
     n: "2",
     body: (
       <>
-        <code style={codeTag}>git clone</code> the repo, then <code style={codeTag}>npm install</code>.
+        <code style={codeTag}>git clone</code> the repo, then <code style={codeTag}>node start.js</code> — nothing
+        else to install.
       </>
     ),
   },
@@ -22,8 +23,8 @@ const STEPS = [
     n: "3",
     body: (
       <>
-        Make sure you&apos;re logged into the Claude CLI, then <code style={codeTag}>npm run dev</code> and open
-        localhost:3000.
+        Make sure you&apos;re logged into the Claude CLI. The first run asks you to sign in with GitHub once (to
+        confirm it&apos;s really you), then opens on localhost:3000.
       </>
     ),
   },
