@@ -137,7 +137,7 @@ export default async function ThankYou({
             You&apos;re in.
           </h1>
           <p style={{ fontSize: 14, lineHeight: 1.7, color: "#aeb8bc", margin: "0 0 32px" }}>
-            A GitHub collaborator invite is on its way to the email you checked out with — usually within a
+            A GitHub collaborator invite is on its way to your GitHub account — usually within a
             minute. Here&apos;s what to do once it lands:
           </p>
 
