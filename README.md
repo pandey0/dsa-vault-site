@@ -8,7 +8,9 @@ Storefront for [dsa-vault-pro](https://github.com/pandey0/dsa-vault-pro): landin
 2. Buyer clicks **Buy Now** → `GET /api/create-payment-link` reads that cookie, calls the Razorpay API to create a Payment Link with `notes: { github_username }`, and redirects to it.
 3. Buyer pays on Razorpay's hosted page. Razorpay redirects them back to `/thank-you` (UX only — not the fulfillment trigger).
 4. Razorpay sends a `payment_link.paid` webhook to `/api/razorpay-webhook`. After verifying the signature, it reads `github_username` back out of the payment's `notes` and calls the GitHub API to add that user as a **read-only** collaborator on `pandey0/dsa-vault-pro-build` — a separate repo that only ever contains a compiled build (published by a GitHub Action in the real `dsa-vault-pro` source repo on each tagged release), never the app's actual source or git history.
-5. Buyer gets a GitHub invite email, accepts it, follows the build repo's own README (`node server.js`, no `npm install`) to get running.
+5. Buyer gets a GitHub invite email, accepts it, clones `dsa-vault-pro-build`, and runs `node start.js` per that repo's own README — which authenticates them via GitHub Device Flow and checks live whether they're still a collaborator here before starting anything. See `dsa-vault-pro`'s `DISTRIBUTION.md` for how that check works; being a collaborator on this repo **is** the license, so revoking someone is just removing them as a collaborator, same as for anyone else.
+
+Note: the GitHub OAuth App below (`GITHUB_OAUTH_CLIENT_ID`) is also hardcoded into `dsa-vault-pro`'s `start.js` for that Device Flow check — don't rotate/delete it without checking that dependency too.
 
 ## Environment variables
 
@@ -23,7 +25,7 @@ Storefront for [dsa-vault-pro](https://github.com/pandey0/dsa-vault-pro): landin
 
 ## One-time setup checklist
 
-1. **GitHub OAuth App**: Developer Settings → OAuth Apps → New OAuth App. Set "Authorization callback URL" to `https://<your-domain>/api/auth/github/callback`. Copy the Client ID and generate a Client Secret.
+1. **GitHub OAuth App**: Developer Settings → OAuth Apps → New OAuth App. Set "Authorization callback URL" to `https://<your-domain>/api/auth/github/callback`. Copy the Client ID and generate a Client Secret. Also check **"Enable Device Flow"** on this same app — `dsa-vault-pro`'s `start.js` reuses its Client ID for the license check (see its `DISTRIBUTION.md`).
 2. **GitHub PAT**: Settings → Developer settings → Fine-grained tokens → New token. Resource owner: `pandey0`. Repository access: only `dsa-vault-pro-build`. Permissions: Administration → Read and write.
 3. **Razorpay**: create the account (KYC required), grab API keys from Settings → API Keys.
 4. **Deploy** (e.g. Vercel), set all env vars above in the project settings.
