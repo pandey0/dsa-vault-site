@@ -39,6 +39,8 @@ npm run dev
 
 Set the env vars above in `.env.local` for full functionality. Without `RAZORPAY_KEY_ID`/`SECRET` the Buy button will fail gracefully (redirects back with an error) but the landing page and GitHub sign-in still work.
 
+A pre-commit hook (`.husky/pre-commit`, via `npm run lint && npm run build`) runs automatically on every commit — a broken build/lint never lands in history.
+
 ## Notes on fulfillment
 
 The webhook, not the `/thank-you` redirect, is the source of truth for granting access — Razorpay's `callback_url` redirect happens in the buyer's browser and could be spoofed or dropped, while the webhook is a signed, server-to-server call. Never wire the actual invite to the callback page.
