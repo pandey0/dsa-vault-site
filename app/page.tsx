@@ -21,6 +21,13 @@ const FAQ_JSON_LD = {
   })),
 };
 
+const WEBSITE_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "DSA Vault",
+  url: "https://dsa-vault.shop/",
+};
+
 const PRODUCT_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Product",
@@ -61,10 +68,11 @@ export default async function Home({
       className={`${jetbrainsMono.className} dsa-landing`}
       style={{ background: "#0a0d0e", color: "#d8dee2", minHeight: "100vh", overflowX: "hidden" }}
     >
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PRODUCT_JSON_LD) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }} />
       {/* NAV */}
-      <div
+      <nav
         style={{
           position: "sticky",
           top: 0,
@@ -98,8 +106,9 @@ export default async function Home({
             get access
           </a>
         </div>
-      </div>
+      </nav>
 
+      <main>
       {/* HERO */}
       <div style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(56px,9vw,104px) clamp(20px,5vw,64px) clamp(40px,6vw,72px)" }}>
         <div
@@ -212,7 +221,7 @@ export default async function Home({
       </div>
 
       {/* REQUIREMENT CALLOUT */}
-      <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
+      <section style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
         <div
           style={{
             border: "1px solid rgba(255,180,84,.3)",
@@ -231,10 +240,10 @@ export default async function Home({
             subscription you can run non-interactively? Not the right fit yet.
           </div>
         </div>
-      </div>
+      </section>
 
       {/* DEMO VIDEO */}
-      <div style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
+      <section style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
         <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// see it in action"}</div>
         <h2 style={{ fontSize: "clamp(22px,3vw,30px)", color: "#f2f5f4", margin: "0 0 24px", fontWeight: 700, letterSpacing: "-0.01em" }}>
           Watch a real session, not a mockup.
@@ -258,10 +267,10 @@ export default async function Home({
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
           />
         </div>
-      </div>
+      </section>
 
       {/* WHAT'S INCLUDED */}
-      <div id="included" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+      <section id="included" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
         <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// what's included"}</div>
         <h2 style={{ fontSize: "clamp(22px,3vw,30px)", color: "#f2f5f4", margin: "0 0 36px", fontWeight: 700, letterSpacing: "-0.01em" }}>
           Five things you get, nothing you don&apos;t.
@@ -316,10 +325,10 @@ export default async function Home({
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* HOW IT WORKS */}
-      <div id="how" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+      <section id="how" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
         <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// how it works"}</div>
         <h2 style={{ fontSize: "clamp(22px,3vw,30px)", color: "#f2f5f4", margin: "0 0 36px", fontWeight: 700, letterSpacing: "-0.01em" }}>
           Three steps, no back-and-forth.
@@ -353,10 +362,10 @@ export default async function Home({
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* PRICING */}
-      <div id="pricing" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(48px,7vw,80px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+      <section id="pricing" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(48px,7vw,80px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
         <div
           style={{
             border: "1px solid rgba(110,231,160,.3)",
@@ -432,19 +441,20 @@ export default async function Home({
             </a>
           )}
         </div>
-      </div>
+      </section>
 
       {/* FAQ */}
-      <div id="faq" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
+      <section id="faq" style={{ maxWidth: 920, margin: "0 auto", padding: "clamp(40px,6vw,64px) clamp(20px,5vw,64px)", borderTop: "1px solid rgba(255,255,255,.08)" }}>
         <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// faq"}</div>
         <h2 style={{ fontSize: "clamp(22px,3vw,30px)", color: "#f2f5f4", margin: "0 0 28px", fontWeight: 700, letterSpacing: "-0.01em" }}>
           Questions worth answering upfront.
         </h2>
         <FaqAccordion />
-      </div>
+      </section>
+      </main>
 
       {/* FOOTER */}
-      <div
+      <footer
         style={{
           maxWidth: 920,
           margin: "0 auto",
@@ -459,7 +469,7 @@ export default async function Home({
       >
         <div style={{ fontSize: 12, color: "#5c6b70" }}>dsa_vault$ — one-time purchase, private repo, forever yours.</div>
         <div style={{ fontSize: 12, color: "#5c6b70" }}>no refunds after repo access is granted</div>
-      </div>
+      </footer>
     </div>
   );
 }
