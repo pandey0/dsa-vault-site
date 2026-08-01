@@ -138,17 +138,43 @@ export default async function Home({
         >
           Stop grinding DSA problems blind.
         </h1>
-        <p style={{ fontSize: "clamp(15px,1.6vw,18px)", lineHeight: 1.65, color: "#aeb8bc", maxWidth: 600, margin: "0 0 36px", textWrap: "pretty" }}>
-          A Socratic AI coach that runs on the Claude subscription you already pay for. Talk through your intuition
-          before you see the answer, convert solutions to any language, get graded, and watch a step-by-step dry
-          run of the algorithm underneath.
+        <p style={{ fontSize: "clamp(15px,1.6vw,18px)", lineHeight: 1.65, color: "#aeb8bc", maxWidth: 600, margin: "0 0 28px", textWrap: "pretty" }}>
+          A Socratic AI coach that questions your approach before it ever shows you the answer, grades your own
+          attempts against the pattern, converts any solution into the language your interview loop uses, and
+          replays a step-by-step visual dry run — so you actually understand it, not just memorize it.
         </p>
+
+        {/* DSA motif: small array visualization to signal category at a glance */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 36 }} aria-hidden="true">
+          {["6", "2", "9", "1", "7", "3"].map((val, i) => (
+            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+              <div
+                style={{
+                  width: 30,
+                  height: 30,
+                  border: `1px solid ${i === 2 ? "rgba(110,231,160,.6)" : "rgba(255,255,255,.12)"}`,
+                  background: i === 2 ? "rgba(110,231,160,.1)" : "transparent",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 12,
+                  color: i === 2 ? "#6ee7a0" : "#5c6b70",
+                  borderRadius: 3,
+                }}
+              >
+                {val}
+              </div>
+              <div style={{ fontSize: 9, color: "#3a4347" }}>{i}</div>
+            </div>
+          ))}
+          <div style={{ fontSize: 11, color: "#3a4347", marginLeft: 8 }}>{"// still thinking in loops? we'll get you past that"}</div>
+        </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", marginBottom: 48 }}>
           <a
             href="#pricing"
             style={{ textDecoration: "none", background: "#6ee7a0", color: "#0a0d0e", padding: "13px 24px", borderRadius: 3, fontWeight: 700, fontSize: 14 }}
           >
-            Get access — ₹199
+            Get lifetime access — ₹199
           </a>
           <div
             style={{
@@ -299,8 +325,8 @@ export default async function Home({
             },
             {
               n: "03",
-              title: "Language conversion",
-              body: "Port any solution from Java into whatever language your interview loop actually uses.",
+              title: "Interview in any language",
+              body: "Interviewing in Python, C++, or JS? Convert every Java solution instantly, not just the ones you memorized.",
             },
             {
               n: "04",
@@ -309,8 +335,8 @@ export default async function Home({
             },
             {
               n: "05",
-              title: "Visual step-by-step dry runs",
-              body: "Generate a visual trace of any algorithm executing, step by step — see the state changes, not just the code.",
+              title: "See exactly why it fails",
+              body: "A step-by-step visual dry run of the algorithm's state — so a wrong answer tells you why, not just that.",
             },
           ].map((item) => (
             <div key={item.n} style={{ background: "#0d1214", padding: "26px 24px" }}>
@@ -338,8 +364,8 @@ export default async function Home({
             { n: "01", title: "Pay once via Razorpay", body: "₹199, one-time. No account creation required beyond checkout." },
             {
               n: "02",
-              title: "Get invited to the repo automatically",
-              body: "A webhook fires on payment and sends a GitHub collaborator invite to your GitHub account — usually within a minute.",
+              title: "Get access automatically",
+              body: "No waiting on a human. Access is granted to your GitHub account within a minute of payment.",
             },
           ].map((step, i) => (
             <div key={step.n} style={{ display: "flex", gap: 20, padding: "20px 0", borderBottom: i < 2 ? "1px solid rgba(255,255,255,.08)" : undefined }}>
@@ -353,11 +379,10 @@ export default async function Home({
           <div style={{ display: "flex", gap: 20, padding: "20px 0" }}>
             <div style={{ fontSize: 20, fontWeight: 800, color: "#2a3236", width: 36, flexShrink: 0 }}>03</div>
             <div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: "#eef2f1", marginBottom: 6 }}>Clone it and run it locally</div>
+              <div style={{ fontSize: 15, fontWeight: 700, color: "#eef2f1", marginBottom: 6 }}>Download it and start practicing</div>
               <div style={{ fontSize: 13, lineHeight: 1.6, color: "#8a969b" }}>
-                <code style={codeTag}>git clone</code>, <code style={codeTag}>node start.js</code> — nothing else
-                to install. A one-time GitHub sign-in confirms it&apos;s really you, then it runs on your machine,
-                on your Claude login, for good.
+                Two commands, nothing else to install. A one-time sign-in confirms it&apos;s really you, then it
+                runs on your machine, on your own Claude login, for good.
               </div>
             </div>
           </div>
@@ -380,8 +405,9 @@ export default async function Home({
           }}
         >
           <div>
-            <div style={{ fontSize: 12, color: "#6ee7a0", letterSpacing: ".04em", marginBottom: 10 }}>{"// one-time purchase"}</div>
+            <div style={{ fontSize: 12, color: "#6ee7a0", letterSpacing: ".04em", marginBottom: 10 }}>{"// launch price"}</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10 }}>
+              <span style={{ fontSize: 20, color: "#5c6b70", textDecoration: "line-through" }}>₹499</span>
               <span style={{ fontSize: "clamp(34px,5vw,48px)", fontWeight: 800, color: "#f2f5f4" }}>₹199</span>
               <span style={{ fontSize: 14, color: "#5c6b70" }}>/ lifetime access</span>
             </div>
