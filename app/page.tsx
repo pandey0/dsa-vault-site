@@ -4,6 +4,8 @@ import { GITHUB_AUTH_COOKIE, verifyCookieValue } from "@/lib/auth-cookie";
 import { FaqAccordion } from "./faq-accordion";
 import { FAQ_ITEMS } from "./faq-data";
 import { PriceInfoTip } from "./price-info-tip";
+import { UtmCapture } from "./utm-capture";
+import { TrackedLink, TrackedSubmitButton } from "./tracked-cta";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -81,6 +83,7 @@ export default async function Home({
       className={`${jetbrainsMono.className} dsa-landing`}
       style={{ background: "#0a0d0e", color: "#d8dee2", minHeight: "100vh", overflowX: "hidden" }}
     >
+      <UtmCapture />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(PRODUCT_JSON_LD) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(FAQ_JSON_LD) }} />
@@ -183,12 +186,13 @@ export default async function Home({
           <div style={{ fontSize: 11, color: "#3a4347", marginLeft: 8 }}>{"// still thinking in loops? we'll get you past that"}</div>
         </div>
         <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", marginBottom: 48 }}>
-          <a
+          <TrackedLink
             href="#pricing"
+            event="hero_cta_click"
             style={{ textDecoration: "none", background: "#6ee7a0", color: "#0a0d0e", padding: "13px 24px", borderRadius: 3, fontWeight: 700, fontSize: 14 }}
           >
             Get lifetime access — {price}
-          </a>
+          </TrackedLink>
           <div
             style={{
               fontSize: 12,
@@ -447,8 +451,8 @@ export default async function Home({
 
           {githubUsername ? (
             <form action="/api/create-payment-link" method="POST">
-              <button
-                type="submit"
+              <TrackedSubmitButton
+                event="checkout_start"
                 style={{
                   border: "none",
                   cursor: "pointer",
@@ -463,11 +467,12 @@ export default async function Home({
                 }}
               >
                 Pay with Razorpay →
-              </button>
+              </TrackedSubmitButton>
             </form>
           ) : (
-            <a
+            <TrackedLink
               href="/api/auth/github/start"
+              event="github_connect_click"
               style={{
                 textDecoration: "none",
                 background: "#6ee7a0",
@@ -480,7 +485,7 @@ export default async function Home({
               }}
             >
               Connect GitHub to continue →
-            </a>
+            </TrackedLink>
           )}
         </div>
       </section>

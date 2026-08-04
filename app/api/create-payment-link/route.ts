@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { GITHUB_AUTH_COOKIE, verifyCookieValue } from "@/lib/auth-cookie"
+import { UTM_COOKIE_NAME, parseUtmCookie } from "@/lib/utm"
 
 export const runtime = "nodejs"
 
@@ -26,6 +27,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Razorpay is not configured." }, { status: 500 })
   }
 
+  const utm = parseUtmCookie(cookieStore.get(UTM_COOKIE_NAME)?.value)
+
   try {
     const res = await fetch("https://api.razorpay.com/v1/payment_links/", {
       method: "POST",
@@ -40,6 +43,7 @@ export async function POST(request: Request) {
         reference_id: `${githubUsername}-${Date.now()}`,
         notes: {
           github_username: githubUsername,
+          ...utm,
         },
         callback_url: `${origin}/thank-you`,
         callback_method: "get",

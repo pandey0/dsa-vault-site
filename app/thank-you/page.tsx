@@ -1,5 +1,8 @@
 import { JetBrains_Mono } from "next/font/google";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { track } from "@vercel/analytics/server";
+import { UTM_COOKIE_NAME, parseUtmCookie } from "@/lib/utm";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -52,6 +55,15 @@ export default async function ThankYou({
   const invoiceHref = hasPaymentParams
     ? `/api/invoice?${new URLSearchParams(params as Record<string, string>).toString()}`
     : undefined;
+
+  if (hasPaymentParams) {
+    const cookieStore = await cookies();
+    const utm = parseUtmCookie(cookieStore.get(UTM_COOKIE_NAME)?.value);
+    await track("purchase", {
+      payment_id: params.razorpay_payment_id ?? "",
+      ...utm,
+    });
+  }
 
   return (
     <div
