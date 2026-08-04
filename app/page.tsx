@@ -1,8 +1,9 @@
 import { JetBrains_Mono } from "next/font/google";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { GITHUB_AUTH_COOKIE, verifyCookieValue } from "@/lib/auth-cookie";
 import { FaqAccordion } from "./faq-accordion";
 import { FAQ_ITEMS } from "./faq-data";
+import { PriceInfoTip } from "./price-info-tip";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -57,11 +58,23 @@ const codeTag = { background: "rgba(255,255,255,.06)", padding: "2px 5px", borde
 export default async function Home({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; country?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, country: countryOverride } = await searchParams;
   const cookieStore = await cookies();
   const githubUsername = verifyCookieValue(cookieStore.get(GITHUB_AUTH_COOKIE)?.value);
+
+  // NextRequest.geo/.ip were removed in Next 15 — Vercel's edge network still
+  // injects this header on deployed traffic, so we read it directly instead.
+  const headerList = await headers();
+  // Vercel's header is browser-inaccessible, so local/dev testing can't reach the
+  // non-India path without this override. Restricted to non-production since it's
+  // purely cosmetic anyway — the real Razorpay charge is fixed at ₹199 regardless.
+  const visitorCountry =
+    process.env.NODE_ENV !== "production" && countryOverride ? countryOverride : headerList.get("x-vercel-ip-country");
+  const isNonIndia = visitorCountry !== null && visitorCountry !== "IN";
+  const price = isNonIndia ? "$2.5" : "₹199";
+  const strikePrice = isNonIndia ? "$5" : "₹499";
 
   return (
     <div
@@ -174,7 +187,7 @@ export default async function Home({
             href="#pricing"
             style={{ textDecoration: "none", background: "#6ee7a0", color: "#0a0d0e", padding: "13px 24px", borderRadius: 3, fontWeight: 700, fontSize: 14 }}
           >
-            Get lifetime access — ₹199
+            Get lifetime access — {price}
           </a>
           <div
             style={{
@@ -361,7 +374,7 @@ export default async function Home({
         </h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
           {[
-            { n: "01", title: "Pay once via Razorpay", body: "₹199, one-time. No account creation required beyond checkout." },
+            { n: "01", title: "Pay once via Razorpay", body: `${price}, one-time. No account creation required beyond checkout.` },
             {
               n: "02",
               title: "Get access automatically",
@@ -407,8 +420,11 @@ export default async function Home({
           <div>
             <div style={{ fontSize: 12, color: "#6ee7a0", letterSpacing: ".04em", marginBottom: 10 }}>{"// launch price"}</div>
             <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 10 }}>
-              <span style={{ fontSize: 20, color: "#5c6b70", textDecoration: "line-through" }}>₹499</span>
-              <span style={{ fontSize: "clamp(34px,5vw,48px)", fontWeight: 800, color: "#f2f5f4" }}>₹199</span>
+              <span style={{ fontSize: 20, color: "#5c6b70", textDecoration: "line-through" }}>{strikePrice}</span>
+              <span style={{ fontSize: "clamp(34px,5vw,48px)", fontWeight: 800, color: "#f2f5f4" }}>{price}</span>
+              {isNonIndia ? (
+                <PriceInfoTip text="Billed in ₹199 INR at checkout — your bank/card network converts it to USD at their own exchange rate. The $2.5 shown here is an estimate, not the exact charge." />
+              ) : null}
               <span style={{ fontSize: 14, color: "#5c6b70" }}>/ lifetime access</span>
             </div>
             <div style={{ fontSize: 13, lineHeight: 1.7, color: "#8a969b", maxWidth: 420 }}>
