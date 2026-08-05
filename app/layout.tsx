@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 const SITE_URL = "https://dsa-vault.shop";
 const DESCRIPTION =
-  "A Socratic AI coach for DSA interview prep, built on the Striver's A2Z DSA Sheet. Talk through your intuition before seeing the answer, convert solutions to any language, get graded, and watch step-by-step dry runs — all through the Claude subscription you already pay for. One-time payment, ₹199, lifetime access.";
+  "A Socratic AI coach for DSA interview prep, built on the Striver's A2Z DSA Sheet. Talk through your intuition before seeing the answer, convert solutions to any language, get graded, and watch step-by-step dry runs — all through Claude, Codex, or Gemini, whichever you already pay for. One-time payment, ₹199, lifetime access.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,6 +30,8 @@ export const metadata: Metadata = {
     "AI coding interview coach",
     "data structures and algorithms practice",
     "Claude AI DSA trainer",
+    "Codex CLI interview prep",
+    "Gemini CLI interview prep",
   ],
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },

@@ -1,7 +1,7 @@
 export const FAQ_ITEMS = [
   {
-    q: "Do I need an API key or Claude credits?",
-    a: "No. Everything runs through your existing `claude` CLI login (Pro, Max, or Code). This repo never talks to the Anthropic API directly and never adds usage of its own.",
+    q: "Do I need an API key?",
+    a: "No, not by default — everything runs through your existing Claude, Codex, or Gemini CLI login (your choice). If you'd rather bill per-token instead of using your subscription, you can set that CLI's own API key env var, but it's optional. This repo never talks to any AI provider directly and never adds usage of its own.",
   },
   {
     q: "Is this a subscription?",
@@ -9,7 +9,7 @@ export const FAQ_ITEMS = [
   },
   {
     q: "What if I don't have Claude Code set up?",
-    a: "Then this isn't the right fit yet. You need a Claude subscription you can run non-interactively from a terminal — set that up first.",
+    a: "You don't have to use Claude — Codex CLI and Gemini CLI work too, pick whichever you already have. If you have none of the three set up (or an API key for one of them), set one up first, this isn't the right fit yet without it.",
   },
   {
     q: "Can I use a language other than Java for practice?",
@@ -25,15 +25,15 @@ export const FAQ_ITEMS = [
   },
   {
     q: "Does this work on Windows, Mac, or Linux?",
-    a: "Yes — anywhere Node.js and the `claude` CLI run: Windows, macOS, and Linux.",
+    a: "Yes — anywhere Node.js and your chosen AI CLI (Claude, Codex, or Gemini) run: Windows, macOS, and Linux.",
   },
   {
     q: "Do I need an internet connection?",
-    a: "Yes. Coaching, grading, and dry-run generation all run through your local `claude` CLI, which talks to Anthropic over the internet.",
+    a: "Yes. Coaching, grading, and dry-run generation all run through your local AI CLI, which talks to its provider over the internet.",
   },
   {
-    q: "Does this work with the Claude free plan?",
-    a: "No. The free plan doesn't support the CLI usage this needs — you need Claude Pro, Max, or a Code plan you can run non-interactively.",
+    q: "Does this work with a free plan?",
+    a: "No. Free tiers generally don't support the non-interactive CLI usage this needs — you need a paid subscription (Claude Pro/Max/Code, ChatGPT Plus/Pro, or Gemini Code Assist/AI Pro/Ultra) or an API key for whichever CLI you pick.",
   },
   {
     q: "How long does setup take?",

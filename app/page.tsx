@@ -36,7 +36,7 @@ const PRODUCT_JSON_LD = {
   "@type": "Product",
   name: "DSA Vault",
   description:
-    "An AI-assisted DSA interview trainer built on the Striver's A2Z DSA Sheet, with a Socratic AI coach that runs through your own Claude subscription.",
+    "An AI-assisted DSA interview trainer built on the Striver's A2Z DSA Sheet, with a Socratic AI coach that runs through your own Claude, Codex, or Gemini subscription.",
   offers: {
     "@type": "Offer",
     price: "199",
@@ -244,7 +244,7 @@ export default async function Home({
               <span style={{ color: "#6ee7a0" }}>$</span>{" "}node start.js
             </div>
             <div style={{ color: "#7a8790" }}>&gt; one-time GitHub sign-in to verify your license...</div>
-            <div style={{ color: "#7a8790" }}>&gt; using your local `claude` login — no API key needed</div>
+            <div style={{ color: "#7a8790" }}>&gt; using your local Claude / Codex / Gemini login — no API key needed</div>
             <div style={{ color: "#7a8790" }}>
               &gt; ready on http://localhost:3000
               <span
@@ -342,7 +342,8 @@ export default async function Home({
           ))}
           <div style={{ background: "#0d1214", padding: "26px 24px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <div style={{ fontSize: 13, lineHeight: 1.65, color: "#5c6b70" }}>
-              Runs entirely through the Claude CLI already on your machine. No API keys, no added usage.
+              Runs entirely through Claude, Codex, or Gemini CLI already on your machine — your pick. No API key
+              required, no added usage.
             </div>
           </div>
         </div>
@@ -377,7 +378,7 @@ export default async function Home({
               <div style={{ fontSize: 15, fontWeight: 700, color: "#eef2f1", marginBottom: 6 }}>Download it and start practicing</div>
               <div style={{ fontSize: 13, lineHeight: 1.6, color: "#8a969b" }}>
                 Two commands, nothing else to install. A one-time sign-in confirms it&apos;s really you, then it
-                runs on your machine, on your own Claude login, for good.
+                runs on your machine, on your own Claude, Codex, or Gemini login, for good.
               </div>
             </div>
           </div>

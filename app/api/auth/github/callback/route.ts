@@ -16,7 +16,7 @@ export async function GET(request: Request) {
   cookieStore.delete(OAUTH_STATE_COOKIE)
 
   if (!code || !state || !expectedState || state !== expectedState) {
-    return NextResponse.redirect(`${origin}/?error=oauth_state_mismatch`)
+    return NextResponse.redirect(`${origin}/?error=oauth_state_mismatch#pricing`)
   }
 
   const clientId = process.env.GITHUB_OAUTH_CLIENT_ID
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     const tokenData = await tokenRes.json()
 
     if (!tokenData.access_token) {
-      return NextResponse.redirect(`${origin}/?error=oauth_token_exchange_failed`)
+      return NextResponse.redirect(`${origin}/?error=oauth_token_exchange_failed#pricing`)
     }
 
     const userRes = await fetch("https://api.github.com/user", {
@@ -60,10 +60,10 @@ export async function GET(request: Request) {
     const userData = await userRes.json()
 
     if (!userRes.ok || typeof userData.login !== "string") {
-      return NextResponse.redirect(`${origin}/?error=oauth_user_fetch_failed`)
+      return NextResponse.redirect(`${origin}/?error=oauth_user_fetch_failed#pricing`)
     }
 
-    const response = NextResponse.redirect(`${origin}/`)
+    const response = NextResponse.redirect(`${origin}/#pricing`)
 
     response.cookies.set(GITHUB_AUTH_COOKIE, signCookieValue(userData.login), {
       httpOnly: true,
@@ -75,6 +75,6 @@ export async function GET(request: Request) {
 
     return response
   } catch {
-    return NextResponse.redirect(`${origin}/?error=oauth_unexpected_error`)
+    return NextResponse.redirect(`${origin}/?error=oauth_unexpected_error#pricing`)
   }
 }
