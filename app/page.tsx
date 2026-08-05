@@ -263,28 +263,6 @@ export default async function Home({
         </div>
       </div>
 
-      {/* REQUIREMENT CALLOUT */}
-      <section style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
-        <div
-          style={{
-            border: "1px solid rgba(255,180,84,.3)",
-            background: "rgba(255,180,84,.05)",
-            borderRadius: 6,
-            padding: "20px 22px",
-            display: "flex",
-            gap: 14,
-          }}
-        >
-          <div style={{ color: "#ffb454", fontSize: 16, lineHeight: 1.4 }}>⚠</div>
-          <div style={{ fontSize: 13.5, lineHeight: 1.7, color: "#d8c9ae" }}>
-            <strong style={{ color: "#ffb454" }}>Before you buy:</strong> this requires your own Claude Pro, Max, or
-            Code login. This repo is the workflow layer — it does not include any AI usage or API access of its
-            own. Every generation runs through your <code style={codeTag}>claude</code> login, using your usage. No
-            subscription you can run non-interactively? Not the right fit yet.
-          </div>
-        </div>
-      </section>
-
       {/* DEMO VIDEO */}
       <section style={{ maxWidth: 920, margin: "0 auto", padding: "0 clamp(20px,5vw,64px) clamp(56px,8vw,88px)" }}>
         <div style={{ fontSize: 12, color: "#6ee7a0", marginBottom: 10, letterSpacing: ".04em" }}>{"// see it in action"}</div>
