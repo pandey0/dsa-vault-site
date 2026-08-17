@@ -21,13 +21,27 @@ export default function OpengraphImage() {
         <div
           style={{
             display: "flex",
-            fontSize: 40,
-            fontWeight: 700,
-            color: "#eef2f1",
+            alignItems: "center",
+            gap: 16,
             marginBottom: 28,
           }}
         >
-          dsa_vault<span style={{ color: "#6ee7a0" }}>$</span>
+          <svg width="44" height="44" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 132 196 A 68 68 0 0 1 268 196" fill="none" stroke="#6ee7a0" strokeWidth="24" strokeLinecap="round" />
+            <rect x="108" y="186" width="184" height="152" rx="26" fill="#6ee7a0" />
+            <path d="M 182 228 L 214 262 L 182 296" fill="none" stroke="#0a0d0e" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" />
+            <rect x="224" y="280" width="34" height="16" rx="4" fill="#0a0d0e" />
+          </svg>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 40,
+              fontWeight: 700,
+              color: "#eef2f1",
+            }}
+          >
+            dsa_vault<span style={{ color: "#6ee7a0" }}>$</span>
+          </div>
         </div>
         <div
           style={{
