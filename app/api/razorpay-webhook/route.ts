@@ -36,8 +36,8 @@ export async function POST(request: Request) {
   let body: {
     event?: string
     payload?: {
-      payment_link?: { entity?: { notes?: RazorpayNotes } }
-      payment?: { entity?: { notes?: RazorpayNotes } }
+      payment_link?: { entity?: { id?: string; reference_id?: string; notes?: RazorpayNotes } }
+      payment?: { entity?: { id?: string; notes?: RazorpayNotes } }
     }
   }
 
@@ -52,15 +52,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true, ignored: true })
   }
 
+  const paymentId = body.payload?.payment?.entity?.id
+  const referenceId = body.payload?.payment_link?.entity?.reference_id
+
   const githubUsername =
     body.payload?.payment_link?.entity?.notes?.github_username ?? body.payload?.payment?.entity?.notes?.github_username
 
   if (typeof githubUsername !== "string" || !GITHUB_USERNAME_RE.test(githubUsername)) {
-    console.error("payment_link.paid webhook missing/invalid github_username in notes:", githubUsername)
+    console.error("payment_link.paid webhook missing/invalid github_username in notes:", { paymentId, referenceId, githubUsername })
     return NextResponse.json({ ok: true, skipped: "invalid_username" })
   }
 
-  await inviteCollaborator(githubUsername)
+  await inviteCollaborator(githubUsername, { paymentId, referenceId })
 
   return NextResponse.json({ ok: true })
 }
