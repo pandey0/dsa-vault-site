@@ -3,6 +3,11 @@ import { createHmac, timingSafeEqual } from "node:crypto"
 export const GITHUB_AUTH_COOKIE = "dsa_vault_github_user"
 export const OAUTH_STATE_COOKIE = "dsa_vault_oauth_state"
 
+// Without this, a cookie set while on the apex domain is host-only and never reaches
+// www (or vice versa) — the state cookie set by /start wouldn't be sent back on the
+// callback if the two happen to land on different hosts, breaking the OAuth flow.
+export const AUTH_COOKIE_DOMAIN = "dsa-vault.shop"
+
 function getSecret() {
   const secret = process.env.AUTH_COOKIE_SECRET
 

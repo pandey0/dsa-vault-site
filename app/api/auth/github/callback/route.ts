@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { GITHUB_AUTH_COOKIE, OAUTH_STATE_COOKIE, signCookieValue } from "@/lib/auth-cookie"
+import { AUTH_COOKIE_DOMAIN, GITHUB_AUTH_COOKIE, OAUTH_STATE_COOKIE, signCookieValue } from "@/lib/auth-cookie"
 
 export const runtime = "nodejs"
 
@@ -13,7 +13,13 @@ export async function GET(request: Request) {
   const expectedState = cookieStore.get(OAUTH_STATE_COOKIE)?.value
   // Single-use: clear it now, on every path, instead of only on success — it's already been
   // read into `expectedState`, so there's nothing left that needs it to stick around.
-  cookieStore.delete(OAUTH_STATE_COOKIE)
+  // Domain/path must match how it was set, or the browser keeps the original cookie
+  // and only clears a separate host-only one this deletion would otherwise create.
+  cookieStore.delete({
+    name: OAUTH_STATE_COOKIE,
+    path: "/",
+    domain: process.env.NODE_ENV === "production" ? AUTH_COOKIE_DOMAIN : undefined,
+  })
 
   if (!code || !state || !expectedState || state !== expectedState) {
     return NextResponse.redirect(`${origin}/?error=oauth_state_mismatch#pricing`)
@@ -70,6 +76,7 @@ export async function GET(request: Request) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
+      domain: process.env.NODE_ENV === "production" ? AUTH_COOKIE_DOMAIN : undefined,
       maxAge: 60 * 60,
     })
 

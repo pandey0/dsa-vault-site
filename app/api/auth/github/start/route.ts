@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { randomBytes } from "node:crypto"
-import { OAUTH_STATE_COOKIE } from "@/lib/auth-cookie"
+import { AUTH_COOKIE_DOMAIN, OAUTH_STATE_COOKIE } from "@/lib/auth-cookie"
 
 export const runtime = "nodejs"
 
@@ -31,6 +31,7 @@ export async function GET(request: Request) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
+    domain: process.env.NODE_ENV === "production" ? AUTH_COOKIE_DOMAIN : undefined,
     maxAge: 60 * 10,
   })
 
