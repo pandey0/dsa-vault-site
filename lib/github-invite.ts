@@ -39,6 +39,35 @@ async function hasPendingInvitation(username: string, token: string) {
   return invitations.some((invitation) => invitation.invitee?.login?.toLowerCase() === username.toLowerCase())
 }
 
+async function putCollaborator(username: string, token: string, permission: string) {
+  const res = await fetch(
+    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/collaborators/${encodeURIComponent(username)}`,
+    {
+      method: "PUT",
+      headers: githubHeaders(token),
+      body: JSON.stringify({ permission }),
+    }
+  )
+
+  if (res.ok) {
+    return { ok: true as const }
+  }
+
+  const body = await res.text().catch(() => "")
+  return { ok: false as const, status: res.status, body }
+}
+
+// GitHub 422s "Cannot assign X permission of Y" for an account that once held (and, in
+// some cases, no longer visibly holds — e.g. after declining an invite) that permission
+// level or higher, even for a brand-new invite. Only a strict upgrade goes through.
+// "pull" is the correct default for a new customer, so we only escalate when GitHub
+// actually rejects it for this reason — never as the default.
+const PERMISSION_ESCALATION = ["pull", "push"] as const
+
+function isPermissionBlocked(status: number, body: string) {
+  return status === 422 && body.includes("Cannot assign")
+}
+
 export async function inviteCollaborator(username: string, context: InviteContext = {}) {
   const token = process.env.GITHUB_TOKEN
   const logContext = { username, ...context }
@@ -64,24 +93,29 @@ export async function inviteCollaborator(username: string, context: InviteContex
     // that failure is logged below with full context.
   }
 
-  const res = await fetch(
-    `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/collaborators/${encodeURIComponent(username)}`,
-    {
-      method: "PUT",
-      headers: githubHeaders(token),
-      body: JSON.stringify({ permission: "pull" }),
+  for (const [index, permission] of PERMISSION_ESCALATION.entries()) {
+    const result = await putCollaborator(username, token, permission)
+
+    if (result.ok) {
+      console.log("GitHub invite created.", { ...logContext, permission })
+      return
     }
-  )
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "")
-    console.error("Failed to invite GitHub collaborator:", {
+    const isLastAttempt = index === PERMISSION_ESCALATION.length - 1
+
+    if (!isPermissionBlocked(result.status, result.body) || isLastAttempt) {
+      console.error("Failed to invite GitHub collaborator:", {
+        ...logContext,
+        permission,
+        githubStatus: result.status,
+        githubBody: result.body,
+      })
+      return
+    }
+
+    console.log("GitHub rejected permission for an account with prior history at that level — escalating.", {
       ...logContext,
-      githubStatus: res.status,
-      githubBody: body,
+      rejectedPermission: permission,
     })
-    return
   }
-
-  console.log("GitHub invite created.", logContext)
 }
